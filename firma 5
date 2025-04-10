@@ -1,0 +1,12 @@
+ New-NetFirewallRule -DisplayName "Permitir RDP TCP 3389" -Direction Inbound -Protocol TCP -LocalPort 3389 -Action Allow
+ New-NetFirewallRule -DisplayName "Bloquear FTP Saliente" -Direction Outbound -Protocol TCP -RemotePort 21 -Action Block
+Get-NetFirewallRule | Where-Object { $.DisplayName -like "smb" -or $.DisplayName -like "compartir" } | Select-Object Name, DisplayName, Enabled | Format-Table -AutoSize
+ Enable-NetFirewallRule -Name "FPS-SMB-In-TCP"
+ Remove-NetFirewallRule -DisplayName "Reg-aPrueba"
+ Get-NetFirewallRule -Enabled True | Where-Object {$_.Profile -eq "Domain"}
+New-NetFirewallRule -DisplayName "Permitir HTTP Privado" -Direction Inbound -Protocol TCP -LocalPort 80 -Action Allow -Profile Private
+Test-Path "C:\Backup\FirewallConfig.wfw"
+}
+>>     ($_ | Get-NetFirewallPortFilter).LocalPort -eq 1433 -and $_.Action -eq "Allow"
+>> Get-NetFirewallRule | Where-Object {^C
+ Set-NetFirewallProfile -Profile Domain,Private,Public -Enabled True
